@@ -14,17 +14,21 @@ keyfile {{ chrony_config_keyfile }}
 driftfile {{ chrony_config_driftfile }}
 
 # Uncomment the following line to turn logging on.
-#log tracking measurements statistics
+{% if chrony_log_enabled | bool %}
+log tracking measurements statistics
 
 # Log files location.
 logdir {{chrony_config_logdir }}
+{% endif %}
 
 # Stop bad estimates upsetting machine clock.
 maxupdateskew 100.0
 
 # This directive enables kernel synchronisation (every 11 minutes) of the
 # real-time clock. Note that it can't be used along with the 'rtcfile' directive.
+{% if chrony_rtcsync_enabled | bool %}
 rtcsync
+{% endif %}
 
 # Step the system clock instead of slewing it if the adjustment is larger than
 # one second, but only in the first three clock updates.
